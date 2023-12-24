@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Csv Parser</title>
+</head>
+<body>
+    <p>Pick file to parse:</p>
+    <input type="file" id="fileInput" multiple>
+    <div id="dataContainer"></div>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function selectedFileChanged() {
+        if (this.files.length === 0) {
+            console.log('No file selected.');
+            return;
+        }
+        let fileData = "";
+        const reader = new FileReader();
+        reader.onload = function fileReadCompleted() {
+            let fileData = reader.result;
+            const parsedData = parseCSV(fileData);
+            const dataContainer = document.getElementById('dataContainer');
+            parsedData.forEach(entry => {
+              const entryContainer = document.createElement('div');
+              entryContainer.innerHTML = `
+                <p>Tytuł: ${entry.Tytul}</p>
+                <p>Autor: ${entry.Autor}</p>
+                <p>Rok_wydania: ${entry.Rok_wydania}</p>
+                <p>ISBN: ${entry.ISBN}</p>
+                <br>
+              `;
+              dataContainer.appendChild(entryContainer);
+            });
+        };
+        reader.readAsText(this.files[0]);
+        });
+
+        function parseCSV(csv) {
+          const lines = csv.split('\r\n');
+          const result = [];
+          const headers = lines[0].split(',');
+          for (let i = 1; i < lines.length; i++) {
+            const line = lines[i].split(',');
+            if (line.length === headers.length) {
+              const entry = {};
+      
+              for (let j = 0; j < headers.length; j++) {
+                entry[headers[j]] = line[j];
+              }
+              result.push(entry);
+            }
+          }
+          return result;
+        }
+      </script>
+</body>
+</html>

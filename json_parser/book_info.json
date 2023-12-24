@@ -1,0 +1,39 @@
+{
+    "ksiazki": [
+        {
+            "ksiazka1": {
+                "tytul": "Solaris",
+                "autor": "Stanisław Lem",
+                "rok_wydania": 1961
+            }
+        },
+        {
+            "ksiazka2": {
+                "tytul": "Błękitna kropka",
+                "autor": "Carl Sagan",
+                "rok_wydania": 1994
+            }
+        },
+        {
+            "ksiazka3": {
+                "tytul": "Metro 2033",
+                "autor": "Dmitrij Głuchowski",
+                "rok_wydania": 2002
+            }
+        },
+        {
+            "ksiazka4": {
+                "tytul": "Czy androidy śnią o elektrycznych owcach?",
+                "autor": "Philip K. Dick",
+                "rok_wydania": 1968
+            }
+        },
+        {
+            "ksiazka5": {
+                "tytul": "Kwantechizm 2.0, czyli klatka na ludzi",
+                "autor": "Andrzej Dragan",
+                "rok_wydania": 2022
+            }
+        }
+    ]
+}

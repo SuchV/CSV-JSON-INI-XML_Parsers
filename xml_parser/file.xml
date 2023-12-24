@@ -1,0 +1,22 @@
+<xml version="1.0" encoding="UTF-8">
+    <ksiazki>
+        <ksiazka>
+            <tytul>Błękitna kropka</tytul>
+            <autor>Carl Sagan</autor>
+            <rok_wydania>1994</rok_wydania>
+            <isbn>0256908382</isbn>
+        </ksiazka>
+        <ksiazka>
+            <tytul>Kwantechizm 2.0, czyli klatka na ludzi</tytul>
+            <autor>Andrzej Dragan</autor>
+            <rok_wydania>2022</rok_wydania>
+            <isbn> 8382020569</isbn>
+        </ksiazka>
+        <ksiazka>
+            <tytul>Solaris</tytul>
+            <autor>Stanisław lem</autor>
+            <rok_wydania>1968</rok_wydania>
+            <isbn>46367245727</isbn>
+        </ksiazka>
+    </ksiazki>
+</xml>

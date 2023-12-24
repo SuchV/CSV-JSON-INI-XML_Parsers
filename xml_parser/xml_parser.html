@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML parser</title>
+</head>
+<body>
+    <p>Pick file to parse:</p>
+    <input type="file" id="fileInput" multiple>
+    <div id="dataContainer"></div>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function selectedFileChanged() {
+        if (this.files.length === 0) {
+            console.log('No file selected.');
+            return;
+        }
+        let fileData = "";
+        const reader = new FileReader();
+        reader.onload = function fileReadCompleted() {
+            let fileData = reader.result;
+            const parsedData = parseXML(fileData);
+            const ksiazkaTags = parsedData.querySelectorAll("ksiazka").length;
+            const dataContainer = document.getElementById('dataContainer');
+            for(let i=0; i < ksiazkaTags; i++){
+                const entryContainer = document.createElement('div');
+                const ksiazka = parsedData.querySelectorAll("ksiazka")[i];
+                const tytul = ksiazka.querySelector("tytul").textContent;
+                const autor = ksiazka.querySelector("autor").textContent;
+                const rok_wydania = ksiazka.querySelector("rok_wydania").textContent;
+                const isbn = ksiazka.querySelector("isbn").textContent;
+                entryContainer.innerHTML = `
+                    <p>Książka nr: ${i+1}</p>
+                    <p>Tytuł: ${tytul}</p>
+                    <p>Autor: ${autor}</p>
+                    <p>Rok_wydania: ${rok_wydania}</p>
+                    <p>ISBN: ${isbn}</p>
+                    <br>
+                    `;
+                    dataContainer.appendChild(entryContainer);
+            }
+        };
+        reader.readAsText(this.files[0]);
+        });
+        function parseXML(xmlString) {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+            return xmlDoc;
+        }
+      </script>
+</body>
+</html>

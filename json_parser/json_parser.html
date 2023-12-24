@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Json parser</title>
+</head>
+<body>
+    <p>Pick file to parse:</p>
+    <input type="file" id="fileInput" multiple>
+    <div id="dataContainer"></div>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function selectedFileChanged() {
+        if (this.files.length === 0) {
+            console.log('No file selected.');
+            return;
+        }
+        let fileData = "";
+        const reader = new FileReader();
+        reader.onload = function fileReadCompleted() {
+            let fileData = reader.result;
+            const parsedData = parseJSON(fileData);
+            for(let i = 0; i < parsedData.ksiazki.length; i++){
+                const entryContainer = document.createElement('div');
+                const dataContainer = document.getElementById('dataContainer');
+                const ksiazka = parsedData.ksiazki[i];
+                const ksiazkaKey = Object.keys(ksiazka)[0];
+                const ksiazkaObj = ksiazka[ksiazkaKey];
+                entryContainer.innerHTML = `
+                    <p>Książka nr: ${i+1}</p>
+                    <p>Tytuł: ${ksiazkaObj.tytul}</p>
+                    <p>Autor: ${ksiazkaObj.autor}</p>
+                    <p>Rok_wydania: ${ksiazkaObj.rok_wydania}</p>
+                    <br>
+                    `;
+                    dataContainer.appendChild(entryContainer);
+            }
+        };
+        reader.readAsText(this.files[0]);
+        });
+        function parseJSON(jsonString) {
+            // Teraz 'parsedData' zawiera obiekt JavaScript z danymi JSON
+            return JSON.parse(jsonString);
+        }
+      </script>
+</body>
+</html>

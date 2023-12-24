@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ini parser</title>
+</head>
+<body>
+    <p>Pick file to parse:</p>
+    <input type="file" id="fileInput" multiple>
+    <div id="dataContainer"></div>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function selectedFileChanged() {
+        if (this.files.length === 0) {
+            console.log('No file selected.');
+            return;
+        }
+        let fileData = "";
+        const reader = new FileReader();
+        reader.onload = function fileReadCompleted() {
+            let fileData = reader.result;
+            console.log(fileData);
+            const parsedData = parseINI(fileData);
+            const dataContainer = document.getElementById('dataContainer');
+            const entryContainer = document.createElement('div');
+            entryContainer.innerHTML = `
+                <p>Configuration:</p>
+                <p>DatabasePath: ${parsedData.Configuration.DatabasePath}</p>
+                <p>DebugMode: ${parsedData.Configuration.DebugMode}</p>
+                <p>MaxResultsPerPage: ${parsedData.Configuration.MaxResultsPerPage}</p>
+                <br>
+            `;
+            dataContainer.appendChild(entryContainer);
+        };
+        reader.readAsText(this.files[0]);
+        });
+
+        function parseINI(ini) {
+            const lines = ini.split('\n');
+            const result = {};
+            let currentSection = null;
+            lines.forEach(line => {
+                line = line.trim();
+                if (line.startsWith('[') && line.endsWith(']')) {
+                    currentSection = line.substring(1, line.length - 1);
+                    result[currentSection] = {};
+                } else if (line.includes('=')) {
+                    const [key, value] = line.split('=');
+                    if (currentSection) {
+                        result[currentSection][key.trim()] = value.trim();
+                    }
+                }
+            });
+            return result;
+        }
+      </script>
+</body>
+</html>
